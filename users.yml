@@ -1,0 +1,21 @@
+- name: Create urban user
+  user:
+    name: urban
+    password: "{{ 'Password123' | password_hash('sha512') }}"
+    shell: /bin/bash
+    update_password: on_create
+  register: urban
+- name: Force urban to change password
+  shell: chage -d 0 urban
+  when: urban.changed
+  
+- name: Create alex user
+  user:
+    name: alex
+    password: "{{ 'Password234' | password_hash('sha512') }}"
+    shell: /bin/bash
+    update_password: on_create
+  register: alex
+- name: Force nginx to change password
+  shell: chage -d 0 alex
+  when: alex.changed
