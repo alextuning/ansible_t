@@ -1,4 +1,4 @@
-- hosts: ubuntu
+- hosts: web
   become: yes
   tasks:
     - name: Update apt cache and make sure Vim, Curl and Unzip are installed
@@ -9,3 +9,5 @@
         - vim
         - curl
         - unzip
+        - python
+        - docker

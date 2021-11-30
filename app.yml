@@ -1,22 +1,25 @@
-- name: Start container with an application
-  docker_container:
-    name: app
-    image: https://hub.docker.com/alextuning/app/app_image:0.1
-    command: ["python3", "/opt/app/app.py"]
-
-- name: Add container to networks
-  docker_container:
-    name: app
-    networks:
-      - name: TestNet
-        ipv4_address: 10.1.1.1
-        links:
-          - app
-
-- name: Update network with aliases
-  docker_container:
-    name: app
-    networks:
-      - name: TestNet
-        aliases:
-          - app
+- hosts: web
+  become: yes
+  tasks:
+  - name: Start container with an application
+    docker_container:
+      name: app
+      image: https://hub.docker.com/alextuning/app/app_image:0.1
+      command: ["python3", "/opt/app/app.py"]
+  
+  - name: Add container to networks
+    docker_container:
+      name: app
+      networks:
+        - name: TestNet
+          ipv4_address: 192.168.111.1
+          links:
+            - app
+  
+  - name: Update network with aliases
+    docker_container:
+      name: app
+      networks:
+        - name: TestNet
+          aliases:
+            - app
